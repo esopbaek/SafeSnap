@@ -2,7 +2,7 @@ angular.module('safeSnap.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Patients) {
+.controller('PatientsCtrl', function($scope, Patients) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -11,8 +11,8 @@ angular.module('safeSnap.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.chats = Patients.all();
-  $scope.remove = function(chat) {
+  $scope.patients = Patients.all();
+  $scope.remove = function(patient) {
     Patients.remove(patient);
   };
 })

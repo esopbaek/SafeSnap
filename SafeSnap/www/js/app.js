@@ -50,15 +50,27 @@ angular.module('safeSnap', ['ionic', 'safeSnap.controllers', 'safeSnap.services'
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.patients', {
+      url: '/patients',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-patients': {
+          templateUrl: 'templates/tab-patients.html',
+          controller: 'PatientsCtrl'
         }
       }
     })
+
+
+  // .state('tab.patients', {
+  //     url: '/patients',
+  //     views: {
+  //       'tab-patients': {
+  //         templateUrl: 'templates/tab-patients.html',
+  //         controller: 'PatientsCtrl'
+  //       }
+  //     }
+  //   })
+
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
       views: {
