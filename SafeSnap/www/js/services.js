@@ -7,7 +7,7 @@ angular.module('safeSnap.services', [])
   var patients = [{
     id: 0,
     name: 'Ben Sparrow',
-    lastText: 'You on your way?',
+    lastText: 'Ben your foot is fucked up',
     face: 'img/profile_photos/ben.png',
     imageSet: {
       name: "Foot",
@@ -37,7 +37,7 @@ angular.module('safeSnap.services', [])
   }, {
     id: 1,
     name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
+    lastText: 'Take some Tylenol',
     face: 'img/profile_photos/max.png',
     imageSet: {
       name: "Foot",
@@ -57,7 +57,7 @@ angular.module('safeSnap.services', [])
   }, {
     id: 2,
     name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
+    lastText: 'Your arm is getting worse',
     face: 'img/profile_photos/adam.jpg',
     imageSet: {
       name: "Arm",
@@ -87,7 +87,7 @@ angular.module('safeSnap.services', [])
   }, {
     id: 3,
     name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
+    lastText: 'Progress looks good',
     face: 'img/profile_photos/perry.png',
     imageSet: {
       name: "Foot",
@@ -112,7 +112,7 @@ angular.module('safeSnap.services', [])
   }, {
     id: 4,
     name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
+    lastText: 'It hurts a lot',
     face: 'img/profile_photos/mike.png',
     imageSet: {
       name: "Foot",
