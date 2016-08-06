@@ -44,6 +44,13 @@ angular.module('safeSnap.controllers', [])
      
     $cordovaCamera.getPicture(options).then(function(imageData) {
         $scope.pictureUrl = "data:image/jpeg;base64," + imageData;
+
+        new_set = {
+          url: $scope.pictureUrl,
+          added_date: "Aug 6",
+          desc: "Week 4, hole is huge"
+        };
+        $scope.patient.imageSet.images.push(new_set);
     }, function(err) {
         // error
     });
