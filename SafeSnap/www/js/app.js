@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('safeSnap', ['ionic', 'safeSnap.controllers', 'safeSnap.services'])
+angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeSnap.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -64,7 +64,7 @@ angular.module('safeSnap', ['ionic', 'safeSnap.controllers', 'safeSnap.services'
     url: '/patients/:patientId',
     views: {
       'tab-patients': {
-        templateUrl: 'templates/patient-detail.html',
+        templateUrl: 'templates/patient-image-set.html',
         controller: 'PatientDetailCtrl'
       }
     }

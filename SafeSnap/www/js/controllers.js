@@ -18,7 +18,9 @@ angular.module('safeSnap.controllers', [])
 })
 
 .controller('PatientDetailCtrl', function($scope, $stateParams, Patients) {
+  $scope.state = 'tab.patients'
   $scope.patient = Patients.get($stateParams.patientId);
+  $scope.imageSet = $scope.patient.imageSet
 })
 
 .controller('AccountCtrl', function($scope) {

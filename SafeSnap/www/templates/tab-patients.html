@@ -4,7 +4,7 @@
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients" type="item-text-wrap" href="#/tab/patients/{{patient.id}}">
         <img ng-src="{{patient.face}}">
         <h2>{{patient.name}}</h2>
-        <p>{{patient.setCount}} sets</p>
+        <p>{{patient.imageSet.images.length}} sets</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-assertive" ng-click="remove(patient)">
