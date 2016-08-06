@@ -32,7 +32,7 @@ angular.module('safeSnap', ['ionic', 'safeSnap.controllers', 'safeSnap.services'
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
@@ -51,35 +51,24 @@ angular.module('safeSnap', ['ionic', 'safeSnap.controllers', 'safeSnap.services'
   })
 
   .state('tab.patients', {
-      url: '/patients',
-      views: {
-        'tab-patients': {
-          templateUrl: 'templates/tab-patients.html',
-          controller: 'PatientsCtrl'
-        }
+    url: '/patients',
+    views: {
+      'tab-patients': {
+        templateUrl: 'templates/tab-patients.html',
+        controller: 'PatientsCtrl'
       }
-    })
+    }
+  })
 
-
-  // .state('tab.patients', {
-  //     url: '/patients',
-  //     views: {
-  //       'tab-patients': {
-  //         templateUrl: 'templates/tab-patients.html',
-  //         controller: 'PatientsCtrl'
-  //       }
-  //     }
-  //   })
-
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
+  .state('tab.patient-detail', {
+    url: '/patients/:patientId',
+    views: {
+      'tab-patients': {
+        templateUrl: 'templates/patient-detail.html',
+        controller: 'PatientDetailCtrl'
       }
-    })
+    }
+  })
 
   .state('tab.account', {
     url: '/account',

@@ -17,8 +17,8 @@ angular.module('safeSnap.controllers', [])
   };
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Patients) {
-  $scope.chat = Patients.get($stateParams.patientId);
+.controller('PatientDetailCtrl', function($scope, $stateParams, Patients) {
+  $scope.patient = Patients.get($stateParams.patientId);
 })
 
 .controller('AccountCtrl', function($scope) {
