@@ -25,8 +25,11 @@ angular.module('safeSnap.controllers', [])
  $scope.patients = Patients.all();
 })
 
-.controller('TakePhotoCtrl', function($scope, $cordovaCamera) {
-  $scope.takeImage = function() {
+.controller('TakePhotoCtrl', function($scope, $cordovaCamera, $stateParams, Patients) {
+  $scope.patient = Patients.get($stateParams.patientId);
+  $scope.pictureUrl = 'http://placehold.it/300x300'
+  
+  $scope.takePicture = function() {
     var options = {
         quality: 80,
         destinationType: Camera.DestinationType.DATA_URL,
@@ -40,7 +43,7 @@ angular.module('safeSnap.controllers', [])
     };
      
     $cordovaCamera.getPicture(options).then(function(imageData) {
-        $scope.srcImage = "data:image/jpeg;base64," + imageData;
+        $scope.pictureUrl = "data:image/jpeg;base64," + imageData;
     }, function(err) {
         // error
     });

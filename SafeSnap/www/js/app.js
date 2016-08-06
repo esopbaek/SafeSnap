@@ -91,7 +91,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.take-photo', {
-    url: '/patients/:patientId/take-photo',
+    url: '/camera/choose-patient/:patientId',
     views: {
       'tab-camera': {
         templateUrl: 'templates/take-photo.html',
