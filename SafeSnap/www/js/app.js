@@ -78,6 +78,26 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
         controller: 'AccountCtrl'
       }
     }
+  })
+
+  .state('tab.choose-patient', {
+    url: '/camera/choose-patient',
+    views: {
+      'tab-camera': {
+        templateUrl: 'templates/choose-patient.html',
+        controller: 'ChoosePatientCtrl'
+      }
+    }
+  })
+
+  .state('tab.take-photo', {
+    url: '/patients/:patientId/take-photo',
+    views: {
+      'tab-camera': {
+        templateUrl: 'templates/take-photo.html',
+        controller: 'TakePhotoCtrl'
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

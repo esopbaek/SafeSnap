@@ -10,7 +10,6 @@ angular.module('safeSnap.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
   $scope.patients = Patients.all();
   $scope.remove = function(patient) {
     Patients.remove(patient);
@@ -18,9 +17,34 @@ angular.module('safeSnap.controllers', [])
 })
 
 .controller('PatientDetailCtrl', function($scope, $stateParams, Patients) {
-  $scope.state = 'tab.patients'
   $scope.patient = Patients.get($stateParams.patientId);
   $scope.imageSet = $scope.patient.imageSet
+})
+
+.controller('ChoosePatientCtrl', function($scope, $stateParams, Patients) {
+ $scope.patients = Patients.all();
+})
+
+.controller('TakePhotoCtrl', function($scope, $cordovaCamera) {
+  $scope.takeImage = function() {
+    var options = {
+        quality: 80,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        allowEdit: true,
+        encodingType: Camera.EncodingType.JPEG,
+        targetWidth: 250,
+        targetHeight: 250,
+        popoverOptions: CameraPopoverOptions,
+        saveToPhotoAlbum: false
+    };
+     
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+        $scope.srcImage = "data:image/jpeg;base64," + imageData;
+    }, function(err) {
+        // error
+    });
+  }
 })
 
 .controller('AccountCtrl', function($scope) {

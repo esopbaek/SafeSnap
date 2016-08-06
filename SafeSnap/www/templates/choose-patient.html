@@ -1,0 +1,15 @@
+<ion-view view-title="Take Photo">
+  <ion-content class="padding">
+    <div class="list">
+      Patient Name:  <input type="checkbox" ng-model="checked" aria-label="Toggle ngShow"><br/>
+      </br>
+      <input type="text" placeholder="Incident">
+    </div>
+
+    <ion-list ng-show="checked" class="animate-hide">
+      <ion-item class="item-remove-animate" ng-repeat="patient in patients" type="item-text-wrap" href="#/tab/patients/{{patient.id}}">
+        <h2>{{patient.name}}</h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
