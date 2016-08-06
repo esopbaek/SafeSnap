@@ -1,0 +1,18 @@
+<ion-view view-title="Take Photo">
+  <ion-content class="padding">
+    <div class="list">
+      <form ng-submit="submit()" ng-controller="NewImageCtrl">
+        <label class="item item-input">
+          <input type="text" ng-model="date" placeholder="Date">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="desc" placeholder="Image Description">
+        </label>
+        <label class="item item-input">
+          <img src="{{pictureUrl}}">
+        </label>
+        <input type="submit" class="button button-calm button-full" id="submit" value="Submit" />
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

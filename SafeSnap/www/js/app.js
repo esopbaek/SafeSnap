@@ -98,9 +98,20 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
         controller: 'TakePhotoCtrl'
       }
     }
-  });
+  })
+
+  .state('tab.submit-new-image', {
+    url: '/camera/choose-patient/:patientId/:pictureUrl',
+    views: {
+      'tab-camera': {
+        templateUrl: 'templates/new-image-info.html',
+        controller: 'NewImageCtrl'
+      }
+    }
+  })
+
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/patients');
 
 });

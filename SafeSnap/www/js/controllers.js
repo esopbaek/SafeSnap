@@ -25,7 +25,7 @@ angular.module('safeSnap.controllers', [])
  $scope.patients = Patients.all();
 })
 
-.controller('TakePhotoCtrl', function($scope, $cordovaCamera, $stateParams, Patients) {
+.controller('TakePhotoCtrl', function($scope, $cordovaCamera, $state, $stateParams, Patients) {
   $scope.patient = Patients.get($stateParams.patientId);
   $scope.pictureUrl = 'http://placehold.it/300x300'
   
@@ -45,15 +45,41 @@ angular.module('safeSnap.controllers', [])
     $cordovaCamera.getPicture(options).then(function(imageData) {
         $scope.pictureUrl = "data:image/jpeg;base64," + imageData;
 
-        new_set = {
-          url: $scope.pictureUrl,
-          added_date: "Aug 6",
-          desc: "Week 4, hole is huge"
-        };
-        $scope.patient.imageSet.images.push(new_set);
+        // new_set = {
+        //   url: $scope.pictureUrl,
+        //   added_date: "Aug 6",
+        //   desc: "Week 4, hole is huge"
+        // };
+        // $scope.patient.imageSet.images.push(new_set);
+        // saveState: function () {
+        //   sessionStorage.imageUrl = $scope.pictureUrl;
+        // }
+
+        $state.go("tab.submit-new-image", {patientId: $stateParams.patientId, pictureUrl: $scope.pictureUrl });
     }, function(err) {
+      alert("error");
         // error
     });
+  }
+
+  // $scope.test = function() {
+  //   $state.go("tab.submit-new-image", {patientId: $stateParams.patientId, pictureUrl: $scope.pictureUrl });
+  // }
+
+})
+
+.controller('NewImageCtrl', function($scope, $state, $stateParams, Patients) {
+  $scope.patient = Patients.get($stateParams.patientId);
+  $scope.pictureUrl = $stateParams.pictureUrl;
+
+  $scope.submit = function() {
+    new_set = {
+      url: this.pictureUrl,
+      added_date: this.date,
+      desc: this.desc
+    };
+    $scope.patient.imageSet.images.push(new_set);
+    $state.go('tab.patients');
   }
 })
 
