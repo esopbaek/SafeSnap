@@ -9,31 +9,68 @@ angular.module('safeSnap.services', [])
     name: 'Ben Sparrow',
     lastText: 'Ben your foot is fucked up',
     face: 'img/profile_photos/ben.png',
-    imageSet: {
+    sets: [{
+      id: 0,
       name: "Foot",
-      created_at: "Feb 3",
-      set_desc: "Ben Sparrow is a 34 y/o man with diabetic complications. His diabetic foot wound healing will be monitored.",
-      images: [{
-        url: "img/wound_imgs/wound1.png",
-        added_date: "Feb 3",
-        desc: "Week 0, looks ok"
-      },
-      {
-        url: "img/wound_imgs/wound2.png",
-        added_date: "Feb 12",
-        desc: "Week 1, hole getting bigger"
-      },
-      {
-        url: "img/wound_imgs/wound3.png",
-        added_date: "Feb 19",
-        desc: "Week 2, hole is huge"
-      },
-      {
-        url: "img/wound_imgs/wound2.png",
-        added_date: "Feb 12",
-        desc: "Week 3, hole is massive"
-      }]
-    }
+      description: "Foot Photos",
+      imageSet: {
+        name: "Foot",
+        created_at: "Feb 3",
+        set_desc: "Ben Sparrow is a 34 y/o man with diabetic complications. His diabetic foot wound healing will be monitored.",
+        images: [
+        {
+          url: "img/wound_imgs/wound2.png",
+          added_date: "Feb 19",
+          desc: "Week 3, hole is massive"
+        },
+        {
+          url: "img/wound_imgs/wound3.png",
+          added_date: "Feb 13",
+          desc: "Week 2, hole is huge"
+        },
+        {
+          url: "img/wound_imgs/wound2.png",
+          added_date: "Feb 12",
+          desc: "Week 1, hole getting bigger"
+        },
+        {
+          url: "img/wound_imgs/wound1.png",
+          added_date: "Feb 3",
+          desc: "Week 0, looks ok"
+        }]
+      }
+    },
+    {
+      id: 1,
+      name: "Arm",
+      description: "Arm Photos",
+      imageSet: {
+        name: "Arm",
+        created_at: "Feb 3",
+        set_desc: "Ben Sparrow is a 34 y/o man with diabetic complications. His diabetic foot wound healing will be monitored.",
+        images: [{
+          url: "img/wound_imgs/wound1.png",
+          added_date: "Feb 3",
+          desc: "Week 0, looks ok"
+        },
+        {
+          url: "img/wound_imgs/wound2.png",
+          added_date: "Feb 12",
+          desc: "Week 1, hole getting bigger"
+        },
+        {
+          url: "img/wound_imgs/wound3.png",
+          added_date: "Feb 13",
+          desc: "Week 2, hole is huge"
+        },
+        {
+          url: "img/wound_imgs/arm.jpg",
+          added_date: "Feb 19",
+          desc: "Week 3, hole is massive"
+        }]
+      }
+    }]
+
   }, {
     id: 1,
     name: 'Max Lynx',
@@ -154,6 +191,22 @@ angular.module('safeSnap.services', [])
           return patients[i];
         }
       }
+      return null;
+    },
+    getSet: function(patientId, setId) {
+      for (var i = 0; i < patients.length; i++) {
+        if (patients[i].id === parseInt(patientId)) {
+          var patient = patients[i];
+        }
+      }
+      console.log(patient.name)
+      console.log(patient.sets, setId)
+      for (var i = 0; i < patient.sets.length; i++) {
+        if (patient.sets[i].id === parseInt(setId)) {
+          return patient.sets[i];
+        }
+      }
+
       return null;
     }
   };

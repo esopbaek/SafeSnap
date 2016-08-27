@@ -1,0 +1,15 @@
+<ion-view view-title="New Set">
+  <ion-content class="padding">
+    <div class="list">
+      <form ng-submit="submit()" ng-controller="NewSetCtrl">
+        <label class="item item-input">
+          <input type="text" ng-model="name" placeholder="Name">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="desc" placeholder="Set Description">
+        </label>
+        <input type="submit" class="button button-calm button-full" id="submit" value="Submit" />
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

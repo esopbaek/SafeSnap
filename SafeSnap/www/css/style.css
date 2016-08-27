@@ -1,1 +1,57 @@
 /* Empty. Add your own CSS if you like */
+
+input[type="text"] {
+
+}
+
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+}
+
+#add-image-to-set {
+  float: right;
+  font-size: 34px;
+}
+
+.image-set-name {
+  display: inline-block;
+  float: left;
+}
+
+.add-image-container {
+  width:100%;
+}
+
+.choose-set-to-add-image {
+  margin-top: 40px auto;
+  border: 1px solid lightgrey;
+  display: block;
+  border-radius: 50%;
+  width:10px;
+  padding:20px;
+}
+
+.choose-set {
+  display: block;
+  border: 1px solid black;
+}
+
+.choose-set #patient-name-input, .choose-set #set-name-input {
+  border: 1px solid lightgrey;
+  display: block;
+  width: 30%;
+  margin: 0 auto;
+  height:30px;
+}
+
+/*.list {
+  border: 1px solid red;
+  margin-top: 40%;
+}*/

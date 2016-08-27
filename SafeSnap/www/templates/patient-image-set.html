@@ -4,10 +4,13 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{patient.name}}">
+<ion-view view-title="{{patient.name}}" >
   <ion-content class="padding">
-    <h2>{{imageSet.name}}</h2>
-    <p>{{imageSet.created_at}}</p>
+    <div class='add-image-container clearfix'>
+      <h2 class="image-set-name">{{imageSet.name}}</h2>
+      <a id="add-image-to-set" class="ion-android-add-circle" href="#/tab/camera/patient/{{patient.id}}/set/{{set.id}}"></a>
+    </div>
+    <p>Last Updated: {{imageSet.images[0].added_date}}</p>
     <p>{{imageSet.set_desc}}</p>
     <ion-list>
       <ion-item class="item-remove-animate" ng-repeat="image in imageSet.images" type="item-text-wrap" style="height: 300px;">

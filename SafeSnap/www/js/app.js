@@ -81,11 +81,31 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.patient-detail', {
-    url: '/patients/:patientId',
+    url: '/patients/:patientId/set-index/:setId',
     views: {
       'tab-patients': {
         templateUrl: 'templates/patient-image-set.html',
         controller: 'PatientDetailCtrl'
+      }
+    }
+  })
+
+  .state('tab.set-list', {
+    url: '/patients/:patientId/set-index',
+    views: {
+      'tab-patients': {
+        templateUrl: 'templates/patient-set-list.html',
+        controller: 'SetListCtrl'
+      }
+    }
+  })
+
+  .state('tab.new-set', {
+    url: '/patients/:patientId/set/new',
+    views: {
+      'tab-patients': {
+        templateUrl: 'templates/add-set.html',
+        controller: 'NewSetCtrl'
       }
     }
   })
@@ -111,7 +131,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.take-photo', {
-    url: '/camera/choose-patient/:patientId',
+    url: '/camera/patient/:patientId/set/:setId',
     views: {
       'tab-camera': {
         templateUrl: 'templates/take-photo.html',
@@ -121,7 +141,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.submit-new-image', {
-    url: '/camera/choose-patient/:patientId/:pictureUrl',
+    url: '/camera/choose-patient/:patientId/:setId/:pictureUrl',
     views: {
       'tab-camera': {
         templateUrl: 'templates/new-image-info.html',

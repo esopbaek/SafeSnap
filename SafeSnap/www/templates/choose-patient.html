@@ -1,15 +1,34 @@
 <ion-view view-title="Take Photo">
   <ion-content class="padding">
-    <div class="list">
-      Patient Name:  <input type="checkbox" ng-model="checked" aria-label="Toggle ngShow"><br/>
+    <div class="list choose-set">
+      <div id="patient-name-input" ng-click="toggleInputSelected()">
+        Patient Name
+      </div>
       </br>
-      <input type="text" placeholder="Incident">
+      <div id="set-name-input" ng-click="uncheckSet()">
+        Incident
+      </div>
+      <div ng-click="submit()" class="choose-set-to-add-image">
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </div>
     </div>
 
-    <ion-list ng-show="checked" class="animate-hide">
-      <ion-item class="item-remove-animate" ng-repeat="patient in patients" type="item-text-wrap" href="#/tab/camera/choose-patient/{{patient.id}}">
+    <!-- List of Patients -->
+    <ion-list ng-show="inputSelected && !isPatientChosen" class="animate-hide">
+      <ion-item class="item-remove-animate" ng-repeat="patient in patients" type="item-text-wrap" ng-click="fillInPatientName(patient.id, patient.name)" aria-label="Toggle ngHide">
         <h2>{{patient.name}}</h2>
+      </ion-item>
+    </ion-list>
+
+    <!-- List of Sets Associated With Chosen Patient -->
+    <ion-list ng-show="inputSelected && isPatientChosen && !isSetChosen" class="animate-hide">
+      <ion-item class="item-remove-animate" ng-repeat="set in sets" type="item-text-wrap" ng-click="chooseSet(set.id, set.name)">
+        <h2>{{set.name}}</h2>
       </ion-item>
     </ion-list>
   </ion-content>
 </ion-view>
+
+<script>
+  
+</script>
