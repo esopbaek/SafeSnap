@@ -2,18 +2,20 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-thumbnail-left item-icon-right" ng-repeat="set in sets" type="item-text-wrap" href="#/tab/patients/{{patient.id}}/set-index/{{set.id}}">
-        <img ng-src="{{set.imageSet.images[0].url}}">
+        <img ng-src="{{set.images[0].url}}">
         <h2>{{set.name}}</h2>
         <p>{{set.description}}</p>
-        <p>{{set.imageSet.images.length}} Photos | {{set.imageSet.images[set.imageSet.images.length - 1].added_date}}</p>
+        <p>{{set.images.length}} Photos | {{set.images[set.images.length - 1].added_date}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-assertive" ng-click="remove(patient)">
           Delete
         </ion-option-button>
       </ion-item>
+      <ion-item class="new-set-add" href="#/tab/patients/{{patient.id}}/set/new">
+        <div id="new-set-add-icon" class="ion-android-add-circle"></div><span id="add-set-text">Add Set</span>
+      </ion-item>
     </ion-list>
-    <a id="add-image-to-set" class="ion-android-add-circle" href="#/patients"></a>
   </ion-content>
 </ion-view>
 

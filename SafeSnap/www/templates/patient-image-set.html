@@ -7,13 +7,13 @@
 <ion-view view-title="{{patient.name}}" >
   <ion-content class="padding">
     <div class='add-image-container clearfix'>
-      <h2 class="image-set-name">{{imageSet.name}}</h2>
+      <h2 class="image-set-name">{{set.name}}</h2>
       <a id="add-image-to-set" class="ion-android-add-circle" href="#/tab/camera/patient/{{patient.id}}/set/{{set.id}}"></a>
     </div>
-    <p>Last Updated: {{imageSet.images[0].added_date}}</p>
-    <p>{{imageSet.set_desc}}</p>
+    <p>Last Updated: {{set.images[0].added_date}}</p>
+    <p>{{set.description}}</p>
     <ion-list>
-      <ion-item class="item-remove-animate" ng-repeat="image in imageSet.images" type="item-text-wrap" style="height: 300px;">
+      <ion-item class="item-remove-animate" ng-repeat="image in set.images" type="item-text-wrap" style="height: 300px;">
         <img ng-src="{{image.url}}" style="width: 100%; height: 90%">
         <p>{{image.added_date}}: {{image.desc}}</p>
       </ion-item>

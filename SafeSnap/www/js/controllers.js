@@ -21,7 +21,6 @@ angular.module('safeSnap.controllers', [])
 .controller('PatientDetailCtrl', function($scope, $stateParams, Patients) {
   $scope.patient = Patients.get($stateParams.patientId);
   $scope.set = Patients.getSet($stateParams.patientId, $stateParams.setId);
-  $scope.imageSet = $scope.set.imageSet
 })
 
 .controller('ChoosePatientCtrl', function($scope, $state, $stateParams, Patients) {
@@ -110,12 +109,12 @@ angular.module('safeSnap.controllers', [])
   $scope.pictureUrl = $stateParams.pictureUrl;
 
   $scope.submit = function() {
-    new_set = {
+    new_image = {
       url: this.pictureUrl,
       added_date: this.date,
       desc: this.desc
     };
-    $scope.set.imageSet.images.unshift(new_set);
+    $scope.set.images.unshift(new_image);
     $scope.pictureUrl = 'http://placehold.it/300x300';
     $state.go('tab.patients');
   }
@@ -127,9 +126,46 @@ angular.module('safeSnap.controllers', [])
 })
 
 .controller('NewSetCtrl', function($scope, $state, $stateParams, Patients) {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if(dd<10) {
+      dd='0'+dd
+  } 
+
+  if(mm<10) {
+      mm='0'+mm
+  } 
+
+  today = mm + dd;
+
   $scope.patient = Patients.get($stateParams.patientId);
-  $scope.sets = $scope.patient.sets
-  submit
+  $scope.submit = function() {
+    new_set = {
+      id: $scope.patient.sets.length,
+      name: this.name,
+      description: this.desc,
+      created_at: today,
+      images: []
+    };
+    $scope.patient.sets.push(new_set);
+    $state.go('tab.set-list', {patientId: $scope.patient.id});
+  }
+})
+
+.controller('NewPatientCtrl', function($scope, $state, $stateParams, Patients) {
+  $scope.patients = Patients.all();
+  $scope.submit = function() {
+    new_patient = {
+      id: $scope.patients.length,
+      name: this.name,
+      sets: []
+    };
+    $scope.patients.push(new_patient);
+    $state.go('tab.patients');
+  }
 })
 
 .controller('ChatsCtrl', function($scope, Patients) {

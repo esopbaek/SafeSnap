@@ -4,13 +4,15 @@
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients" type="item-text-wrap" href="#/tab/patients/{{patient.id}}/set-index">
         <img ng-src="{{patient.face}}">
         <h2>{{patient.name}}</h2>
-        <p>{{patient.imageSet.images.length}} sets</p>
+        <p>{{patient.sets.length}} sets</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
         <ion-option-button class="button-assertive" ng-click="remove(patient)">
           Delete
         </ion-option-button>
       </ion-item>
+      <ion-item class="new-patient-add" href="#/tab/patients/new">
+        <div id="new-patient-add-icon" class="ion-android-add-circle"></div><span id="add-patient-text">Add Patient</span>
+      </ion>
     </ion-list>
   </ion-content>
 </ion-view>

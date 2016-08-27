@@ -110,6 +110,18 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
     }
   })
 
+  .state('tab.new-patient', {
+    url: '/patients/new',
+    views: {
+      'tab-patients': {
+        templateUrl: 'templates/add-patient.html',
+        controller: 'NewPatientCtrl'
+      }
+    }
+  })
+
+  
+
   .state('tab.account', {
     url: '/account',
     views: {

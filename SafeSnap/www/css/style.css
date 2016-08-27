@@ -51,6 +51,22 @@ input[type="text"] {
   height:30px;
 }
 
+.new-set-add, .new-patient-add {
+  height: 100px;
+}
+
+.new-set-add #new-set-add-icon, .new-patient-add #new-patient-add-icon {
+  width:60px;
+  font-size: 60px;
+  display: inline-block;
+}
+
+.new-set-add #add-set-text, .new-patient-add #add-patient-text  {
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 20px;
+}
+
 /*.list {
   border: 1px solid red;
   margin-top: 40%;
