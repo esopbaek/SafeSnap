@@ -2,7 +2,7 @@ angular.module('safeSnap.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('PatientsCtrl', function($scope, Patients) {
+.controller('PatientsCtrl', function($http, $scope, Patients) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -12,15 +12,51 @@ angular.module('safeSnap.controllers', [])
   //});
   $scope.patients = Patients.all();
 
+  $scope.patients = [];
 
+  $http.get("http://localhost:3000/api/physicians/1/patients")
+    .success(function(data) {
+      $scope.patients = data;
+    })
+
+    // DELETE request
   $scope.remove = function(patient) {
     Patients.remove(patient);
   };
 })
 
-.controller('PatientDetailCtrl', function($scope, $stateParams, Patients) {
-  $scope.patient = Patients.get($stateParams.patientId);
-  $scope.set = Patients.getSet($stateParams.patientId, $stateParams.setId);
+.controller('PatientDetailCtrl', function($http, $scope, $stateParams) {
+  $http.get("http://localhost:3000/api/physicians/1/patients")
+    .success(function(data) { 
+      $scope.patients = data;
+      var getPatientById = function(patients, patientId) {
+        for (var i = 0; i < patients.length; i++) {
+          if (patients[i].id === parseInt(patientId)) {
+            return patients[i];
+          }
+        }
+        return null;
+      };
+
+      var getSet = function(patients, patientId, setId) {
+        for (var i = 0; i < patients.length; i++) {
+          if (patients[i].id === parseInt(patientId)) {
+            var patient = patients[i];
+          }
+        }
+        for (var i = 0; i < patient.image_sets.length; i++) {
+          if (patient.image_sets[i].id === parseInt(setId)) {
+            return patient.image_sets[i];
+          }
+        }
+
+        return null;
+      };
+
+      $scope.patients = data;
+      $scope.patient = getPatientById($scope.patients, $stateParams.patientId);
+      $scope.set = getSet($scope.patients, $stateParams.patientId, $stateParams.setId);
+    })
 })
 
 .controller('ChoosePatientCtrl', function($scope, $state, $stateParams, Patients) {
@@ -41,7 +77,7 @@ angular.module('safeSnap.controllers', [])
 
   // Grab set for chosen patient
   $scope.patient = Patients.get(patientId)
-  $scope.sets = $scope.patient.sets
+  $scope.sets = $scope.patient.image_sets
  };
 
  $scope.chooseSet = function(setId, setName) {
@@ -120,9 +156,40 @@ angular.module('safeSnap.controllers', [])
   }
 })
 
-.controller('SetListCtrl', function($scope, $state, $stateParams, Patients) {
-  $scope.patient = Patients.get($stateParams.patientId);
-  $scope.sets = $scope.patient.sets
+.controller('SetListCtrl', function($http, $scope, $state, $stateParams, Patients) {
+
+
+  $http.get("http://localhost:3000/api/physicians/1/patients")
+    .success(function(data) {
+      $scope.patients = data;
+      var getPatientById = function(patients, patientId) {
+        for (var i = 0; i < patients.length; i++) {
+          if (patients[i].id === parseInt(patientId)) {
+            return patients[i];
+          }
+        }
+        return null;
+      };
+
+      var getSet = function(patientId, setId) {
+        for (var i = 0; i < patients.length; i++) {
+          if (patients[i].id === parseInt(patientId)) {
+            var patient = patients[i];
+          }
+        }
+        for (var i = 0; i < patient.image_sets.length; i++) {
+          if (patient.image_sets[i].id === parseInt(setId)) {
+            return patient.image_sets[i];
+          }
+        }
+
+        return null;
+      };
+
+      $scope.patient = getPatientById($scope.patients, $stateParams.patientId);
+      // $scope.patient = Patients.get($stateParams.patientId);
+      $scope.sets = $scope.patient.image_sets
+    })
 })
 
 .controller('NewSetCtrl', function($scope, $state, $stateParams, Patients) {
@@ -144,13 +211,13 @@ angular.module('safeSnap.controllers', [])
   $scope.patient = Patients.get($stateParams.patientId);
   $scope.submit = function() {
     new_set = {
-      id: $scope.patient.sets.length,
+      id: $scope.patient.image_sets.length,
       name: this.name,
-      description: this.desc,
+      description: this.description,
       created_at: today,
       images: []
     };
-    $scope.patient.sets.push(new_set);
+    $scope.patient.image_sets.push(new_set);
     $state.go('tab.set-list', {patientId: $scope.patient.id});
   }
 })
@@ -160,8 +227,8 @@ angular.module('safeSnap.controllers', [])
   $scope.submit = function() {
     new_patient = {
       id: $scope.patients.length,
-      name: this.name,
-      sets: []
+      full_name: this.full_name,
+      image_sets: []
     };
     $scope.patients.push(new_patient);
     $state.go('tab.patients');

@@ -2,9 +2,9 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients" type="item-text-wrap" href="#/tab/patients/{{patient.id}}/set-index">
-        <img ng-src="{{patient.face}}">
-        <h2>{{patient.name}}</h2>
-        <p>{{patient.sets.length}} sets</p>
+        <img ng-src="{{patient.profile_photo_url}}">
+        <h2>{{patient.full_name}}</h2>
+        <p>{{patient.image_sets.length}} sets</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
         <ion-option-button class="button-assertive" ng-click="remove(patient)">
           Delete

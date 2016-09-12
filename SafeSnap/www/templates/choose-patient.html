@@ -15,13 +15,18 @@
 
     <!-- List of Patients -->
     <ion-list ng-show="inputSelected && !isPatientChosen" class="animate-hide">
-      <ion-item class="item-remove-animate" ng-repeat="patient in patients" type="item-text-wrap" ng-click="fillInPatientName(patient.id, patient.name)" aria-label="Toggle ngHide">
-        <h2>{{patient.name}}</h2>
+      <!-- search bar -->
+      <ion-item>
+
+      
+      </ion-item>
+      <ion-item class="item-remove-animate" ng-repeat="patient in patients" type="item-text-wrap" ng-click="fillInPatientName(patient.id, patient.full_name)" aria-label="Toggle ngHide">
+        <h2>{{patient.full_name}}</h2>
       </ion-item>
     </ion-list>
 
     <!-- List of Sets Associated With Chosen Patient -->
-    <ion-list ng-show="inputSelected && isPatientChosen && !isSetChosen" class="animate-hide">
+    <ion-list ng-show="inputSelected && isPatientChosen && !isSetChosen" class="animate-hide">   
       <ion-item class="item-remove-animate" ng-repeat="set in sets" type="item-text-wrap" ng-click="chooseSet(set.id, set.name)">
         <h2>{{set.name}}</h2>
       </ion-item>

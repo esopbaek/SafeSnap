@@ -1,9 +1,9 @@
-<ion-view view-title="{{ patient. }}">
+<ion-view view-title="{{ patient.full_name }}">
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients" type="item-text-wrap" href="#/tab/patients/{{patient.id}}">
         <img ng-src="{{patient.face}}">
-        <h2>{{patient.name}}</h2>
+        <h2>{{patient.full_name}}</h2>
         <p>{{patient.imageSet.images.length}} sets</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
