@@ -71,6 +71,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.patients', {
+    cache: false,
     url: '/patients',
     views: {
       'tab-patients': {
@@ -91,6 +92,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.set-list', {
+    cache: false,
     url: '/patients/:patientId/set-index',
     views: {
       'tab-patients': {

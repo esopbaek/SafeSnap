@@ -13,13 +13,12 @@ angular.module('safeSnap.controllers', [])
   $scope.patients = Patients.all();
 
   $scope.patients = [];
-
   $http.get("http://localhost:3000/api/physicians/1/patients")
     .success(function(data) {
       $scope.patients = data;
     })
 
-    // DELETE request
+    // TODO: DELETE request
   $scope.remove = function(patient) {
     Patients.remove(patient);
   };
@@ -192,7 +191,7 @@ angular.module('safeSnap.controllers', [])
     })
 })
 
-.controller('NewSetCtrl', function($scope, $state, $stateParams, Patients) {
+.controller('NewSetCtrl', function($http, $scope, $state, $stateParams) {
   var today = new Date();
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
@@ -208,30 +207,77 @@ angular.module('safeSnap.controllers', [])
 
   today = mm + dd;
 
-  $scope.patient = Patients.get($stateParams.patientId);
+  $scope.patient = [];
+  var getUrl = "http://localhost:3000/api/physicians/1/patients/" + $stateParams.patientId;
+  console.log(getUrl);
+  $http.get(getUrl)
+    .success(function(data) {
+      $scope.patient = data;
+    })
+
+  var scope = $scope;
   $scope.submit = function() {
-    new_set = {
-      id: $scope.patient.image_sets.length,
+    var data = {
       name: this.name,
       description: this.description,
-      created_at: today,
-      images: []
+      patient_id: parseInt($stateParams.patientId),
     };
-    $scope.patient.image_sets.push(new_set);
-    $state.go('tab.set-list', {patientId: $scope.patient.id});
+    var url = 'http://localhost:3000/api/physicians/1/patients/' + $stateParams.patientId + '/image_sets';
+
+    $http({
+    method: 'POST',
+    data: data,
+    url: url
+      }).then(function successCallback(response) {
+        scope.patient.image_sets.push(response.data);
+        $state.go('tab.set-list', {patientId: $scope.patient.id}, {reload: true});
+        // this callback will be called asynchronously
+        // when the response is available
+      }, function errorCallback(response) {
+        alert("error while creating image set");
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+    });
   }
 })
 
-.controller('NewPatientCtrl', function($scope, $state, $stateParams, Patients) {
-  $scope.patients = Patients.all();
+.controller('NewPatientCtrl', function($http, $scope, $state, $stateParams, Patients) {
+
+  $scope.patients = [];
+  $http.get("http://localhost:3000/api/physicians/1/patients")
+    .success(function(data) {
+      $scope.patients = data;
+    })
+
+
+  var scope = $scope;
   $scope.submit = function() {
-    new_patient = {
-      id: $scope.patients.length,
-      full_name: this.full_name,
-      image_sets: []
+    var nameArray = this.full_name.split(" ");
+    var firstName = nameArray[0];
+    var lastName = nameArray[1];
+
+    var data = {
+      first_name: firstName,
+      last_name: lastName
     };
-    $scope.patients.push(new_patient);
-    $state.go('tab.patients');
+
+    $http({
+    method: 'POST',
+    data: data,
+    url: 'http://localhost:3000/api/physicians/1/patients'
+      }).then(function successCallback(response) {
+        console.log("patients before", scope.patients);
+        scope.patients.push(response.data);
+        console.log("patients", scope.patients);
+        $state.go('tab.patients', {}, { reload: true })
+        // $state.go('tab.patients', {}, { reload: true });
+        // this callback will be called asynchronously
+        // when the response is available
+      }, function errorCallback(response) {
+        alert("error while creating patient");
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+    });
   }
 })
 
