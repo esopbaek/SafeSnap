@@ -13,7 +13,7 @@ angular.module('safeSnap.controllers', [])
   $scope.patients = Patients.all();
 
   $scope.patients = [];
-  $http.get("http://localhost:3000/api/physicians/1/patients")
+  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
     .success(function(data) {
       $scope.patients = data;
     })
@@ -25,7 +25,7 @@ angular.module('safeSnap.controllers', [])
 })
 
 .controller('PatientDetailCtrl', function($http, $scope, $stateParams) {
-  $http.get("http://localhost:3000/api/physicians/1/patients")
+  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
     .success(function(data) { 
       $scope.patients = data;
       var getPatientById = function(patients, patientId) {
@@ -158,7 +158,7 @@ angular.module('safeSnap.controllers', [])
 .controller('SetListCtrl', function($http, $scope, $state, $stateParams, Patients) {
 
 
-  $http.get("http://localhost:3000/api/physicians/1/patients")
+  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
     .success(function(data) {
       $scope.patients = data;
       var getPatientById = function(patients, patientId) {
@@ -208,7 +208,7 @@ angular.module('safeSnap.controllers', [])
   today = mm + dd;
 
   $scope.patient = [];
-  var getUrl = "http://localhost:3000/api/physicians/1/patients/" + $stateParams.patientId;
+  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId;
   console.log(getUrl);
   $http.get(getUrl)
     .success(function(data) {
@@ -222,7 +222,7 @@ angular.module('safeSnap.controllers', [])
       description: this.description,
       patient_id: parseInt($stateParams.patientId),
     };
-    var url = 'http://localhost:3000/api/physicians/1/patients/' + $stateParams.patientId + '/image_sets';
+    var url = 'http://safesnap.herokuapp.com/api/physicians/1/patients/' + $stateParams.patientId + '/image_sets';
 
     $http({
     method: 'POST',
@@ -244,7 +244,7 @@ angular.module('safeSnap.controllers', [])
 .controller('NewPatientCtrl', function($http, $scope, $state, $stateParams, Patients) {
 
   $scope.patients = [];
-  $http.get("http://localhost:3000/api/physicians/1/patients")
+  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
     .success(function(data) {
       $scope.patients = data;
     })
@@ -264,7 +264,7 @@ angular.module('safeSnap.controllers', [])
     $http({
     method: 'POST',
     data: data,
-    url: 'http://localhost:3000/api/physicians/1/patients'
+    url: 'http://safesnap.herokuapp.com/api/physicians/1/patients'
       }).then(function successCallback(response) {
         console.log("patients before", scope.patients);
         scope.patients.push(response.data);
