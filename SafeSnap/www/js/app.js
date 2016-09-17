@@ -155,6 +155,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   })
 
   .state('tab.submit-new-image', {
+    cache: false,
     url: '/camera/choose-patient/:patientId/:setId/:pictureUrl',
     views: {
       'tab-camera': {

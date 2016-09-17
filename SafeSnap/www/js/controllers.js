@@ -58,9 +58,13 @@ angular.module('safeSnap.controllers', [])
     })
 })
 
-.controller('ChoosePatientCtrl', function($scope, $state, $stateParams, Patients) {
+.controller('ChoosePatientCtrl', function($http, $scope, $state, $stateParams, Patients) {
  $scope.isPatientChosen = false;
- $scope.patients = Patients.all();
+ $scope.patients = [];
+ $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
+  .success(function(data) {
+    $scope.patients = data;
+  })
 
  $scope.toggleInputSelected = function() {
   $scope.inputSelected = true;
@@ -75,8 +79,15 @@ angular.module('safeSnap.controllers', [])
   document.getElementById('patient-name-input').innerText = patientName;
 
   // Grab set for chosen patient
-  $scope.patient = Patients.get(patientId)
-  $scope.sets = $scope.patient.image_sets
+ $scope.patient = [];
+ $scope.sets = []
+  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + patientId;
+  console.log(getUrl);
+  $http.get(getUrl)
+    .success(function(data) {
+      $scope.patient = data;
+      $scope.sets = $scope.patient.image_sets
+    })
  };
 
  $scope.chooseSet = function(setId, setName) {
@@ -106,8 +117,13 @@ angular.module('safeSnap.controllers', [])
  }
 })
 
-.controller('TakePhotoCtrl', function($scope, $cordovaCamera, $state, $stateParams, Patients) {
-  $scope.set = Patients.getSet($stateParams.patientId, $stateParams.setId);
+.controller('TakePhotoCtrl', function($http, $scope, $cordovaCamera, $state, $stateParams, Patients) {
+  $scope.set = {};
+  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId;
+  $http.get(getUrl)
+  .success(function(data) {
+    $scope.set = data;
+  });
   $scope.pictureUrl = 'http://placehold.it/300x300'
   
   $scope.takePicture = function() {
@@ -132,26 +148,55 @@ angular.module('safeSnap.controllers', [])
         // error
     });
   }
-
   // $scope.test = function() {
   //   $state.go("tab.submit-new-image", {patientId: $stateParams.patientId, pictureUrl: $scope.pictureUrl });
   // }
-
 })
 
-.controller('NewImageCtrl', function($scope, $state, $stateParams, Patients) {
-  $scope.set = Patients.getSet($stateParams.patientId, $stateParams.setId);
+.controller('NewImageCtrl', function($http, $scope, $state, $stateParams, Patients) {
   $scope.pictureUrl = $stateParams.pictureUrl;
+
+  $scope.set = {};
+  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId;
+  $http.get(getUrl)
+  .success(function(data) {
+    $scope.set = data;
+  });
 
   $scope.submit = function() {
     new_image = {
       url: this.pictureUrl,
-      added_date: this.date,
       desc: this.desc
     };
     $scope.set.images.unshift(new_image);
     $scope.pictureUrl = 'http://placehold.it/300x300';
     $state.go('tab.patients');
+  }
+
+  var scope = $scope;
+  $scope.submit = function() {
+    var imageData = {
+      url: this.pictureUrl,
+      description: this.desc
+    };
+
+    var postUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId + "/images";
+
+    $http({
+    method: 'POST',
+    data: imageData,
+    url: postUrl,
+      }).then(function successCallback(response) {
+        scope.set.images.unshift(response.data);
+        $state.go('tab.patients');
+        // $state.go('tab.patients', {}, { reload: true });
+        // this callback will be called asynchronously
+        // when the response is available
+      }, function errorCallback(response) {
+        alert("error while creating patient");
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+    });
   }
 })
 
