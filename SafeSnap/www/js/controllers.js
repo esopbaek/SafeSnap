@@ -2,7 +2,7 @@ angular.module('safeSnap.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('PatientsCtrl', function($http, $scope, Patients) {
+.controller('PatientsCtrl', function($cordovaFileTransfer, $http, $scope, Patients) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -10,17 +10,43 @@ angular.module('safeSnap.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-  $scope.patients = Patients.all();
-
   $scope.patients = [];
+  
+  var imageURI = './img/profile_photos/adam.png';
+
+  var policyJSON = {
+      "expiration": "2020-12-31T12:00:00.000Z",
+      "conditions": [
+          {"bucket": "safesnap"},
+          ["starts-with", "$key", "uploads/"],
+          {"acl": 'public-read'},
+          ["starts-with", "$Content-Type", ""],
+          ["content-length-range", 0, 524288000]
+      ]
+  };
+
   $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
     .success(function(data) {
       $scope.patients = data;
     })
 
-    // TODO: DELETE request
+  var scope = $scope;
   $scope.remove = function(patient) {
-    Patients.remove(patient);
+    var deleteUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + patient.id;
+    $http({
+    method: 'DELETE',
+    data: { id: patient.id },
+    url: deleteUrl,
+      }).then(function successCallback(response) {
+        $scope.patients.splice(response.data, 1);
+        // $state.go('tab.patients', {}, { reload: true });
+        // this callback will be called asynchronously
+        // when the response is available
+      }, function errorCallback(response) {
+        alert("error while deleting patient");
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+    });
   };
 })
 
@@ -140,7 +166,64 @@ angular.module('safeSnap.controllers', [])
     };
      
     $cordovaCamera.getPicture(options).then(function(imageData) {
+
+        var policyJSON = {
+            "expiration": "2020-12-31T12:00:00.000Z",
+            "conditions": [
+                {"bucket": "safesnap"},
+                ["starts-with", "$key", "uploads/"],
+                {"acl": 'public-read'},
+                ["starts-with", "$Content-Type", ""],
+                ["content-length-range", 0, 524288000]
+            ]
+        };
+
+        // var s3Uploader = (function () {
+        //     var encodedSig = "TXRhWMe+P7OrC1uVSsp3/DmOpro=";
+        //     var encodedPolicy = "eyJleHBpcmF0aW9uIj0+IjIwMjAtMTItMzFUMTI6MDA6MDAuMDAwWiIsICJjb25kaXRpb25zIj0+W3siYnVja2V0Ij0+InNhZmVzbmFwIn0sIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICJ1cGxvYWRzLyJdLCB7ImFjbCI9PiJwdWJsaWMtcmVhZCJ9LCBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiIl0sIFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLCAwLCA1MjQyODgwMDBdXX0=";
+         
+        //     var s3URI = encodeURI("https://safesnap.s3.amazonaws.com/"),
+        //         policyBase64 = encodedPolicy,
+        //         signature = encodedSig,
+        //         awsKey = 'AKIAIWNSTQDM3EP5KTZQ',
+        //         acl = "public-read";
+         
+        //     function upload(imageURI, fileName) {
+        //         var deferred = $.Deferred(),
+        //             ft = new FileTransfer(),
+        //             options = new FileUploadOptions();
+         
+        //         options.fileKey = "file";
+        //         options.fileName = fileName;
+        //         options.mimeType = "image/jpeg";
+        //         options.chunkedMode = false;
+        //         options.params = {
+        //             "key": fileName,
+        //             "AWSAccessKeyId": awsKey,
+        //             "acl": acl,
+        //             "policy": policyBase64,
+        //             "signature": signature,
+        //             "Content-Type": "image/jpeg"
+        //         };
+         
+        //         ft.upload(imageURI, s3URI,
+        //             function (e) {
+        //                 deferred.resolve(e);
+        //             },
+        //             function (e) {
+        //                 deferred.reject(e);
+        //             }, options);
+         
+        //         return deferred.promise();
+         
+        //     }
+         
+        //     return {
+        //         upload: upload
+        //     }
+        // }());
         $scope.pictureUrl = "data:image/jpeg;base64," + imageData;
+        // s3Uploader.upload($scope.pictureUrl, "text.txt");
 
         $state.go("tab.submit-new-image", {patientId: $stateParams.patientId, setId: $stateParams.setId, pictureUrl: $scope.pictureUrl });
     }, function(err) {
