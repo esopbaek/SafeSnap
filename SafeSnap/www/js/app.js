@@ -50,26 +50,6 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats-skeleton.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-
-  .state('tab.chat-detail', {
-    url: '/chats/:patientId',
-    views: {
-      'tab-chats': {
-        templateUrl: 'templates/chat-detail-skeleton.html',
-        controller: 'ChatDetailCtrl'
-      }
-    }
-  })
-
   .state('tab.patients', {
     cache: false,
     url: '/patients',
@@ -81,6 +61,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
     }
   })
 
+  // match rails
   .state('tab.patient-detail', {
     url: '/patients/:patientId/set-index/:setId',
     views: {
@@ -91,6 +72,7 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
     }
   })
 
+  // match rails
   .state('tab.set-list', {
     cache: false,
     url: '/patients/:patientId/set-index',
