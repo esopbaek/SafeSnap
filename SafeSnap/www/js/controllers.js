@@ -38,6 +38,7 @@ angular.module('safeSnap.controllers', [])
     data: { id: patient.id },
     url: deleteUrl,
       }).then(function successCallback(response) {
+        // BUG make sure jsons match up perfectly for correct delete UI
         $scope.patients.splice(response.data, 1);
         // $state.go('tab.patients', {}, { reload: true });
         // this callback will be called asynchronously
@@ -316,6 +317,27 @@ angular.module('safeSnap.controllers', [])
       $scope.patient = getPatientById($scope.patients, $stateParams.patientId);
       // $scope.patient = Patients.get($stateParams.patientId);
       $scope.sets = $scope.patient.image_sets
+
+      $scope.remove = function(set) {
+        var patientId = $stateParams.patientId;
+        var setId = set.id;
+        var deleteUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + patientId + "/image_sets/" + setId;
+        $http({
+        method: 'DELETE',
+        data: { id: patient.id },
+        url: deleteUrl,
+          }).then(function successCallback(response) {
+            // BUG make sure jsons match up perfectly for correct delete UI
+            $scope.sets.splice(response.data, 1);
+            // $state.go('tab.patients', {}, { reload: true });
+            // this callback will be called asynchronously
+            // when the response is available
+          }, function errorCallback(response) {
+            alert("error while deleting image set");
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+        });
+      };
     })
 })
 
