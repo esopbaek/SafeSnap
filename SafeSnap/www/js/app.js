@@ -5,8 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeSnap.services'])
-
+angular.module('safeSnap', ['ionic', 'ngCordova', 'ngResource', 'safeSnap.controllers', 'safeSnap.services'])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -23,13 +22,21 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+  $httpProvider.defaults.withCredentials = true;
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
 
   // setup an abstract state for the tabs directive
   .state('tab', {
@@ -66,17 +73,6 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
       'tab-chats': {
         templateUrl: 'templates/chat-detail-skeleton.html',
         controller: 'ChatDetailCtrl'
-      }
-    }
-  })
-
-  .state('tab.patients', {
-    cache: false,
-    url: '/patients',
-    views: {
-      'tab-patients': {
-        templateUrl: 'templates/tab-patients.html',
-        controller: 'PatientsCtrl'
       }
     }
   })
@@ -165,8 +161,32 @@ angular.module('safeSnap', ['ionic', 'ngCordova', 'safeSnap.controllers', 'safeS
     }
   })
 
+  .state('tab.patients', {
+    cache: false,
+    url: '/patients',
+    views: {
+      'tab-patients': {
+        templateUrl: 'templates/tab-patients.html',
+        controller: 'PatientsCtrl'
+      }
+    }
+  })
+
+  // Register Account
+
+  .state('tab.register', {
+    cache: false,
+    url: '/sign-up',
+    views: {
+      'tab-register': {
+        templateUrl: 'templates/tab-sign-up.html',
+        controller: 'RegistrationCtrl'
+      }
+    }
+  })
+
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/patients');
+  $urlRouterProvider.otherwise('/login');
 
 });

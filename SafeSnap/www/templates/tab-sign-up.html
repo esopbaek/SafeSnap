@@ -1,0 +1,15 @@
+<ion-view view-title="Register">
+  <ion-content class="padding">
+    <div class="list">
+      <form ng-submit="submit()" ng-controller="RegistrationCtrl">
+        <label class="item item-input">
+          <input type="text" ng-model="email" placeholder="email">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="password" placeholder="Password">
+        </label>
+        <input type="submit" class="button button-calm button-full" id="submit" value="Submit" />
+      </form>
+    </div>
+  </ion-content>
+</ion-view>
