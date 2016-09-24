@@ -1,7 +1,31 @@
 angular.module('safeSnap.services', [])
 
-.factory('UserSession', function($resource) {
-  return $resource("http://localhost:3000/users/sign_in.json")
+.factory('UserSession', function($resource, api) {
+  return $resource(api.url("users/sign_in.json"));
+})
+
+.factory('api', function() {
+  return {
+    url: function(path) {
+      return this.base() + path;
+    },
+    base: function() {
+      if ( this.isTestMode() ) {
+        return "http://localhost:3000/"
+      } else {
+        return "http://safesnap.herokuapp.com/"
+      }
+    },
+    // isLocalhost: function() {
+    //   return ionic.Platform.platform() === "macintel" && !this.isHttps();
+    // },
+    isTestMode: function() {
+      return true;
+    },
+    // isHttps: function() {
+    //   return window.location.origin.split(':')[0] == "https";
+    // }
+  }
 })
 
 .factory('Patients', function($http) {

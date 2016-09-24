@@ -32,7 +32,7 @@ angular.module('safeSnap.controllers', [])
   }
 })
 
-.controller('PatientsCtrl', function($cordovaFileTransfer, $http, $scope, Patients) {
+.controller('PatientsCtrl', function($cordovaFileTransfer, $http, $scope, Patients, api) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -55,14 +55,14 @@ angular.module('safeSnap.controllers', [])
       ]
   };
 
-  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
+  $http.get(api.url("api/physicians/1/patients"))
     .success(function(data) {
       $scope.patients = data;
     })
 
   var scope = $scope;
   $scope.remove = function(patient) {
-    var deleteUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + patient.id;
+    var deleteUrl = api.url("api/physicians/1/patients/" + patient.id);
     $http({
     method: 'DELETE',
     data: { id: patient.id },
@@ -81,8 +81,8 @@ angular.module('safeSnap.controllers', [])
   };
 })
 
-.controller('PatientDetailCtrl', function($http, $scope, $stateParams) {
-  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
+.controller('PatientDetailCtrl', function($http, $scope, $stateParams, api) {
+  $http.get(api.url("api/physicians/1/patients"))
     .success(function(data) { 
       $scope.patients = data;
       var getPatientById = function(patients, patientId) {
@@ -115,10 +115,10 @@ angular.module('safeSnap.controllers', [])
     })
 })
 
-.controller('ChoosePatientCtrl', function($http, $scope, $state, $stateParams, Patients) {
+.controller('ChoosePatientCtrl', function($http, $scope, $state, $stateParams, Patients, api) {
  $scope.isPatientChosen = false;
  $scope.patients = [];
- $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
+ $http.get(api.url("api/physicians/1/patients"))
   .success(function(data) {
     $scope.patients = data;
   })
@@ -138,7 +138,7 @@ angular.module('safeSnap.controllers', [])
   // Grab set for chosen patient
  $scope.patient = [];
  $scope.sets = []
-  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + patientId;
+  var getUrl = api.url("api/physicians/1/patients/" + patientId);
   console.log(getUrl);
   $http.get(getUrl)
     .success(function(data) {
@@ -174,9 +174,9 @@ angular.module('safeSnap.controllers', [])
  }
 })
 
-.controller('TakePhotoCtrl', function($http, $scope, $cordovaCamera, $state, $stateParams, Patients) {
+.controller('TakePhotoCtrl', function($http, $scope, $cordovaCamera, $state, $stateParams, Patients, api) {
   $scope.set = {};
-  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId;
+  var getUrl = api.url("api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId);
   $http.get(getUrl)
   .success(function(data) {
     $scope.set = data;
@@ -267,25 +267,25 @@ angular.module('safeSnap.controllers', [])
   // }
 })
 
-.controller('NewImageCtrl', function($http, $scope, $state, $stateParams, Patients) {
+.controller('NewImageCtrl', function($http, $scope, $state, $stateParams, Patients, api) {
   $scope.pictureUrl = $stateParams.pictureUrl;
 
   $scope.set = {};
-  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId;
+  var getUrl = api.url("api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId);
   $http.get(getUrl)
   .success(function(data) {
     $scope.set = data;
   });
 
-  $scope.submit = function() {
-    new_image = {
-      url: this.pictureUrl,
-      desc: this.desc
-    };
-    $scope.set.images.unshift(new_image);
-    $scope.pictureUrl = 'http://placehold.it/300x300';
-    $state.go('tab.patients');
-  }
+  // $scope.submit = function() {
+  //   new_image = {
+  //     url: this.pictureUrl,
+  //     desc: this.desc
+  //   };
+  //   $scope.set.images.unshift(new_image);
+  //   $scope.pictureUrl = 'http://placehold.it/300x300';
+  //   $state.go('tab.patients');
+  // }
 
   var scope = $scope;
   $scope.submit = function() {
@@ -294,7 +294,7 @@ angular.module('safeSnap.controllers', [])
       description: this.desc
     };
 
-    var postUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId + "/images";
+    var postUrl = api.url("api/physicians/1/patients/" + $stateParams.patientId + "/image_sets/" + $stateParams.setId + "/images");
 
     $http({
     method: 'POST',
@@ -314,10 +314,10 @@ angular.module('safeSnap.controllers', [])
   }
 })
 
-.controller('SetListCtrl', function($http, $scope, $state, $stateParams, Patients) {
+.controller('SetListCtrl', function($http, $scope, $state, $stateParams, Patients, api) {
 
 
-  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
+  $http.get(api.url("api/physicians/1/patients"))
     .success(function(data) {
       $scope.patients = data;
       var getPatientById = function(patients, patientId) {
@@ -351,7 +351,7 @@ angular.module('safeSnap.controllers', [])
       $scope.remove = function(set) {
         var patientId = $stateParams.patientId;
         var setId = set.id;
-        var deleteUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + patientId + "/image_sets/" + setId;
+        var deleteUrl = api.url("api/physicians/1/patients/" + patientId + "/image_sets/" + setId);
         $http({
         method: 'DELETE',
         data: { id: patient.id },
@@ -371,7 +371,7 @@ angular.module('safeSnap.controllers', [])
     })
 })
 
-.controller('NewSetCtrl', function($http, $scope, $state, $stateParams) {
+.controller('NewSetCtrl', function($http, $scope, $state, $stateParams, api) {
   var today = new Date();
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
@@ -388,7 +388,7 @@ angular.module('safeSnap.controllers', [])
   today = mm + dd;
 
   $scope.patient = [];
-  var getUrl = "http://safesnap.herokuapp.com/api/physicians/1/patients/" + $stateParams.patientId;
+  var getUrl = api.url("api/physicians/1/patients/" + $stateParams.patientId);
   console.log(getUrl);
   $http.get(getUrl)
     .success(function(data) {
@@ -402,7 +402,7 @@ angular.module('safeSnap.controllers', [])
       description: this.description,
       patient_id: parseInt($stateParams.patientId),
     };
-    var url = 'http://safesnap.herokuapp.com/api/physicians/1/patients/' + $stateParams.patientId + '/image_sets';
+    var url = api.url('api/physicians/1/patients/' + $stateParams.patientId + '/image_sets');
 
     $http({
     method: 'POST',
@@ -421,10 +421,10 @@ angular.module('safeSnap.controllers', [])
   }
 })
 
-.controller('NewPatientCtrl', function($http, $scope, $state, $stateParams, Patients) {
+.controller('NewPatientCtrl', function($http, $scope, $state, $stateParams, Patients, api) {
 
   $scope.patients = [];
-  $http.get("http://safesnap.herokuapp.com/api/physicians/1/patients")
+  $http.get(api.url("api/physicians/1/patients"))
     .success(function(data) {
       $scope.patients = data;
     })
@@ -444,7 +444,7 @@ angular.module('safeSnap.controllers', [])
     $http({
     method: 'POST',
     data: data,
-    url: 'http://safesnap.herokuapp.com/api/physicians/1/patients'
+    url: api.url('api/physicians/1/patients')
       }).then(function successCallback(response) {
         console.log("patients before", scope.patients);
         scope.patients.push(response.data);
